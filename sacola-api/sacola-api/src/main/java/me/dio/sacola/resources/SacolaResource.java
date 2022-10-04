@@ -17,6 +17,7 @@ public class SacolaResource {
 
     @PostMapping
     public Item incluirItemNaSacola(@RequestBody ItemDto itemDto){
+
         return sacolaService.incluirItemNaSacola(itemDto);
     }
     @GetMapping("/{id}")
@@ -29,5 +30,10 @@ public class SacolaResource {
     public Sacola fecharSacola(@PathVariable("sacolaId") Long sacolaId,
                                @RequestParam("formaPagamento") int formaPagamento){
         return sacolaService.fecharSacola(sacolaId, formaPagamento);
+    }
+    @PatchMapping("/{sacolaId}")
+    public Sacola removerItemDaSacola(@PathVariable("sacolaId") Long sacolaId,
+                               @RequestParam("itemId") Long itemId){
+        return sacolaService.removerItemDaSacola(sacolaId, itemId);
     }
 }

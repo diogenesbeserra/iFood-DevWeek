@@ -6,6 +6,7 @@ import me.dio.sacola.model.Item;
 import me.dio.sacola.model.Produto;
 import me.dio.sacola.model.Restaurante;
 import me.dio.sacola.model.Sacola;
+import me.dio.sacola.repository.ItemRepository;
 import me.dio.sacola.repository.ProdutoRepository;
 import me.dio.sacola.repository.SacolaRepository;
 import me.dio.sacola.resources.dto.ItemDto;
@@ -13,6 +14,7 @@ import me.dio.sacola.service.SacolaService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,6 +22,8 @@ import java.util.List;
 public class SacolaServiceImpl implements SacolaService {
     private final SacolaRepository sacolaRepository;
     private final ProdutoRepository produtoRepository;
+
+    private final ItemRepository itemRepository;
     @Override
     public Sacola verSacola(Long id) {
         return sacolaRepository.findById(id).orElseThrow(
@@ -92,5 +96,25 @@ public class SacolaServiceImpl implements SacolaService {
         sacola.setValorTotal(valorTotalSacola);
         sacolaRepository.save(sacola);
         return novoItem;
+    }
+
+    public Sacola removerItemDaSacola(Long sacolaId, Long itemId) {
+        Sacola sacola = verSacola(sacolaId);
+        if (sacola.isFechada()) {
+            throw new RuntimeException("Esta sacola está fechada");
+        }
+        List<Item> itensDaSacola = sacola.getItens();
+        for(Item item : itensDaSacola) {
+            if (item.getId().equals(itemId)) {
+                System.out.println("entyoru");
+
+                itensDaSacola.remove(item);
+
+//                sacola.setItens(itensDaSacola);
+                itemRepository.delete(item);
+            }
+        }
+        sacolaRepository.save(sacola);
+        return sacola;
     }
 }
