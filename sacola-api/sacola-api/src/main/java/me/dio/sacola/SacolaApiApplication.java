@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Scanner;
 
-import static jdk.internal.logger.DefaultLoggerFinder.SharedLoggers.system;
+//import static jdk.internal.logger.DefaultLoggerFinder.SharedLoggers.system;
 
 @SpringBootApplication
 public class SacolaApiApplication {
